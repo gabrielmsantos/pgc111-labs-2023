@@ -70,3 +70,24 @@ def gradient(img_1, img_2):
     :return: the gradient magnitude
     """
     return np.sqrt(img_1 ** 2 + img_2 ** 2)
+
+
+# calculando histograma de uma imagem
+def histogram(img, max_value):
+    print(img.shape)
+    l_hist = np.zeros(max_value + 1, dtype=np.uint32)
+    np.add.at(l_hist, img, 1)
+    return l_hist
+
+
+def threshold_image(img1, threshold):
+    """
+        Function to threshold an image
+    :param img1: the image to be thresholded
+    :param threshold: the threshold value
+    :return: the thresholded image
+    """
+    img1[img1 > threshold] = 255
+    img1[img1 <= threshold] = 0
+    return img1
+
