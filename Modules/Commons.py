@@ -25,6 +25,8 @@ def print_images(labels, images, _figsize=(10, 10)):
             axarr[i, j].set_title(labels[i, j])
             axarr[i, j].imshow(images[i, j], cmap='gray', vmin=0, vmax=255)
 
+    plt.show()
+
 
 def _padding(img, kernel_size):
     """
