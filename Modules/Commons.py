@@ -28,6 +28,40 @@ def print_images(labels, images, _figsize=(10, 10)):
     plt.show()
 
 
+def get_offsets(kernel, origin):
+    """
+        Function to get the offsets of a kernel.
+        Compute the offsets that should be used based on the origin of the kernel
+        Later I will use this to convolute the image regarding the origin, so I should pad properly
+    :param kernel: the kernel
+    :param origin: the origin of the kernel
+    :return: the offsets
+    """
+    # get the kernel size
+    k1, k2 = kernel.shape
+    # get the origin
+    o1, o2 = origin
+
+    # get the offsets
+    left = o2
+    right = k2 - o2 - 1
+    top = o1
+    bottom = k1 - o1 - 1
+
+    return left, right, top, bottom
+
+
+def padding(img, left, right, top, bottom):
+    """
+        Function to pad an image with zeros based on the kernel size
+    :param img: the image to be padded
+    :param kernel_size: tuple (m, n). Remember m = 2a +1, n = 2b + 1
+    :return: the padded image
+    """
+    l_img = np.pad(img, ((top, bottom), (left, right)), 'constant', constant_values=0)
+    return l_img
+
+
 def _padding(img, kernel_size):
     """
         Function to pad an image with zeros based on the kernel size
@@ -35,10 +69,10 @@ def _padding(img, kernel_size):
     :param kernel_size: tuple (m, n). Remember m = 2a +1, n = 2b + 1
     :return: the padded image
     """
+
     pad_ud = int((kernel_size[0] - 1) / 2)
     pad_lr = int((kernel_size[1] - 1) / 2)
-    l_img = np.pad(img, ((pad_ud, pad_ud), (pad_lr, pad_lr)), 'constant', constant_values=0)
-    return l_img
+    return padding(img, pad_lr, pad_lr, pad_ud, pad_ud)
 
 
 def convolution(img, kernel):
